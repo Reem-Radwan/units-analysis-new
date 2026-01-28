@@ -351,41 +351,79 @@ body {
 .chart-content { margin-top: 24px; }
 
 /* ============================= */
-/* SIMPLE HIERARCHICAL TABLE
-   (first column is 4 rows)
+/* SINGLE SCROLLBAR CONTAINER
+   Controls both table and chart
 ============================= */
-.chart-table-wrapper {
+.chart-scroll-container {
   overflow-x: auto;
-  margin-bottom: 24px;
+  overflow-y: hidden;
   border: 1px solid #ddd;
   border-radius: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #FF8C00 #f0f0f0;
+}
+
+.chart-scroll-container::-webkit-scrollbar {
+  height: 10px;
+}
+
+.chart-scroll-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 0 0 8px 8px;
+}
+
+.chart-scroll-container::-webkit-scrollbar-thumb {
+  background: #FF8C00;
+  border-radius: 4px;
+}
+
+.chart-scroll-content {
+  display: inline-block;
+  min-width: 1200px; /* Force minimum */
+}
+
+/* ============================= */
+/* TABLE WRAPPER - NO SCROLLBAR
+============================= */
+.chart-table-wrapper-inner {
+  overflow: visible; /* Changed from hidden to visible for sticky to work */
+  border-bottom: 1px solid #ddd;
+  position: relative;
 }
 
 .chart-x-axis-table {
-  width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Changed from collapse to separate for sticky */
+  border-spacing: 0; /* Remove spacing */
   background: white;
-  min-width: 800px;
+  table-layout: fixed; /* Fixed layout for precise column widths */
+  width: auto; /* Auto width - let colgroup control */
 }
 
-/* Sticky left labels (4 rows) */
+/* FIXED/STICKY LEFT LABEL COLUMN - ALWAYS 120px - NEVER STRETCHES */
 .fixed-label-column {
+  position: -webkit-sticky; /* Safari/iOS support */
   position: sticky;
   left: 0;
-  background: #85878a; /* gray */
-  color: #111;
+  background: #85878a !important; /* gray - solid background to cover scrolling content */
+  color: #111 !important;
   font-weight: 700;
   font-size: 14px;
   padding: 14px;
-  border: 1px solid #2d3748;
-  min-width: 120px;
-  width: 120px;
+  border-bottom: 1px solid #2d3748;
   text-align: center;
   vertical-align: middle;
-  z-index: 10;
+  z-index: 150; /* Even higher z-index */
+  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+  
+  /* CRITICAL: Force exact width - prevent stretching */
+  width: 120px !important;
+  min-width: 120px !important;
+  max-width: 120px !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
 }
 
-/* Keep orange/gray/white palette, simpler than rainbow */
+/* Keep orange/gray/white palette */
 .hierarchy-level-1 th:not(.fixed-label-column) {
   background: #FF8C00; /* dark orange */
   color: #111;
@@ -393,19 +431,25 @@ body {
   font-weight: 700;
   padding: 12px 10px;
   text-align: center;
-  border: 1px solid #B65B16;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
 }
 
 .hierarchy-level-2 th:not(.fixed-label-column) {
-  background: #cdcbcb; /* orange */
+  background: #cdcbcb; /* light gray */
   color: #111;
   font-size: 12px;
   font-weight: 700;
   padding: 11px 10px;
   text-align: center;
-  border: 1px solid #E67E00;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
 }
 
 .hierarchy-level-3 th:not(.fixed-label-column) {
@@ -417,6 +461,10 @@ body {
   text-align: center;
   border: 1px solid #d8d8d8;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
 }
 
 .hierarchy-level-4 th:not(.fixed-label-column) {
@@ -428,38 +476,29 @@ body {
   text-align: center;
   border: 1px solid #e0e0e0;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
 }
 
 /* ============================= */
-/* CHART VISUALIZATION
-   - value-based vertical positioning
-   - same rectangle size
-   - continuous connector line
-   - lighter/smaller grid
+/* CHART VISUALIZATION - NO SCROLLBAR
 ============================= */
-.chart-visualization-scroll {
-  overflow-x: auto;
-  overflow-y: hidden;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: white;
+.chart-visualization-wrapper-inner {
+  overflow: hidden; /* No scrollbar on chart itself */
+  position: relative;
 }
 
 .chart-visualization {
   position: relative;
   min-height: 460px;
-  min-width: 800px;
-  padding: 40px 40px; /* less than before */
   background: white;
+  /* display: flex and width set inline */
 }
 
-/* Grid lines: fewer + lighter so not "too big" */
+/* Grid lines */
 .chart-grid-lines {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  right: 40px;
-  bottom: 40px;
   pointer-events: none;
   z-index: 0;
 }
@@ -468,20 +507,16 @@ body {
   position: absolute;
   width: 100%;
   height: 1px;
-  background: rgba(0, 0, 0, 0.06); /* very light gray */
+  background: rgba(0, 0, 0, 0.06);
   left: 0;
 }
 
 /* Bars Container */
 .chart-bars-container {
   position: relative;
-  display: flex;
-  justify-content: space-around;
   align-items: flex-end;
-  height: 100%;
-  padding: 10px 0;
   z-index: 2;
-  gap: 40px;
+  flex-wrap: nowrap; /* Never wrap */
 }
 
 .chart-bar-column {
@@ -490,13 +525,14 @@ body {
   align-items: center;
   justify-content: flex-end;
   position: relative;
-  min-width: 90px;
+  flex-shrink: 0; /* Never shrink */
+  flex-grow: 0; /* Never grow */
 }
 
 /* Stack area for absolute-positioned rectangles */
 .chart-stack {
   position: relative;
-  width: 140px;
+  width: 100%;
   height: 320px; /* MUST match Chart.jsx STACK_HEIGHT */
 }
 
@@ -636,13 +672,28 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .chart-visualization {
-    min-width: 1200px;
+  /* Ensure smooth scrolling works on mobile */
+  .chart-scroll-container {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure sticky column works on mobile */
+  .fixed-label-column {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    z-index: 150;
+    background: #85878a;
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  /* Make scrollbar more visible on mobile */
+  .chart-scroll-container::-webkit-scrollbar {
+    height: 12px;
+  }
+
+  .chart-scroll-container::-webkit-scrollbar-thumb {
+    background: #FF8C00;
   }
 }
-
-
-
-
-
-
