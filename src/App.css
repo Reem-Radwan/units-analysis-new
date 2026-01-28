@@ -405,11 +405,14 @@ body {
   position: sticky;
   left: 0;
   background: #85878a !important; /* gray - solid background to cover scrolling content */
-  color: #111 !important;
+  color: #fff !important;
   font-weight: 700;
-  font-size: 14px;
-  padding: 14px;
+  font-size: 13px; /* Reduced from 14px */
+  padding: 10px 8px; /* Reduced padding */
+  border-right: 2px solid #2d3748; /* Stronger right border */
+  border-top: 1px solid #2d3748;
   border-bottom: 1px solid #2d3748;
+  border-left: 1px solid #2d3748;
   text-align: center;
   vertical-align: middle;
   z-index: 150; /* Even higher z-index */
@@ -423,14 +426,15 @@ body {
   flex-grow: 0 !important;
 }
 
-/* Keep orange/gray/white palette */
+/* Keep orange/gray/white palette - REDUCED PADDING */
 .hierarchy-level-1 th:not(.fixed-label-column) {
   background: #FF8C00; /* dark orange */
   color: #111;
-  font-size: 13px;
+  font-size: 12px; /* Reduced from 13px */
   font-weight: 700;
-  padding: 12px 10px;
+  padding: 10px 6px; /* Reduced padding */
   text-align: center;
+  border: 1px solid #B65B16;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -441,10 +445,11 @@ body {
 .hierarchy-level-2 th:not(.fixed-label-column) {
   background: #cdcbcb; /* light gray */
   color: #111;
-  font-size: 12px;
+  font-size: 11px; /* Reduced from 12px */
   font-weight: 700;
-  padding: 11px 10px;
+  padding: 9px 6px; /* Reduced padding */
   text-align: center;
+  border: 1px solid #E67E00;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -455,9 +460,9 @@ body {
 .hierarchy-level-3 th:not(.fixed-label-column) {
   background: #f3f3f3; /* light gray */
   color: #111;
-  font-size: 12px;
+  font-size: 11px; /* Reduced from 12px */
   font-weight: 700;
-  padding: 10px 8px;
+  padding: 8px 5px; /* Reduced padding */
   text-align: center;
   border: 1px solid #d8d8d8;
   white-space: nowrap;
@@ -470,9 +475,9 @@ body {
 .hierarchy-level-4 th:not(.fixed-label-column) {
   background: #ffffff; /* white */
   color: #111;
-  font-size: 11px;
+  font-size: 10px; /* Reduced from 11px */
   font-weight: 700;
-  padding: 10px 8px;
+  padding: 8px 5px; /* Reduced padding */
   text-align: center;
   border: 1px solid #e0e0e0;
   white-space: nowrap;
@@ -547,19 +552,19 @@ body {
   border-radius: 2px;
 }
 
-/* Rectangles: fixed size, positioned by top in inline style */
+/* Rectangles: REDUCED WIDTH from 110px to 90px */
 .chart-rectangle {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 110px;
+  width: 90px; /* Reduced from 110px */
   height: 36px; /* MUST match Chart.jsx RECT_H */
-  padding: 0 8px;
+  padding: 0 6px; /* Reduced from 8px */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 10px; /* Reduced from 11px */
   font-weight: 700;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);

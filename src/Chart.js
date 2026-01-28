@@ -874,7 +874,6 @@
 
 // export default Chart;
 
-
 import React, { useMemo, useState, useRef, useEffect } from 'react';
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
@@ -1053,7 +1052,7 @@ const Chart = ({ title, data, filterInfo, valueFormatter, selectedFilters }) => 
   // CRITICAL: Column width calculation
   const LABEL_COLUMN_WIDTH = 120; // Fixed width for label column - NEVER CHANGES
   const MIN_TOTAL_WIDTH = 1200; // Minimum total width for the entire container
-  const BASE_COLUMN_WIDTH = 180; // Base column width
+  const BASE_COLUMN_WIDTH = 140; // Reduced from 180px to 140px for tighter fit
   
   const columnCount = flattenedColumns.length;
   
