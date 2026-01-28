@@ -1,38 +1,648 @@
-.App {
-  text-align: center;
+/* ===========================
+   GLOBAL / BASE
+=========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f5f5;
+  color: #333;
   min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+.header {
+  background: white;
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-bottom: 24px;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Keep orange / gray vibe */
+.nav-btn:nth-child(1) {
+  background: #afa4a4;
+  color: white;
+}
+.nav-btn:nth-child(2) {
+  background: #878787;
+  color: white;
+}
+.nav-btn:nth-child(3) {
+  background: #585757;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ===========================
+   TOGGLE
+=========================== */
+.toggle-container {
+  background: white;
+  border-radius: 16px;
+  padding: 20px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.toggle-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+
+.toggle-switch {
+  position: relative;
+  width: 140px;
+  height: 44px;
+  background: #e0e0e0;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.toggle-switch.sell { background: #FF8C00; }
+.toggle-switch.rent { background: #D2691E; }
+
+.toggle-slider {
+  position: absolute;
+  width: 66px;
+  height: 36px;
+  background: white;
+  border-radius: 18px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.20);
+}
+
+.toggle-switch.sell .toggle-slider { left: 4px; }
+.toggle-switch.rent .toggle-slider { left: calc(100% - 70px); }
+
+.toggle-options {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 14px;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.toggle-option {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  opacity: 0.9;
+  transition: all 0.2s ease;
+}
+
+/* Selected label becomes black (because slider is white behind it) */
+.toggle-option.active {
+  color: #111;
+  opacity: 1;
+}
+
+/* ===========================
+   FILTERS
+=========================== */
+.filters-section {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  animation: fadeIn 0.7s ease;
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.filters-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.reset-btn {
+  padding: 10px 24px;
+  background: #FF8C00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 99, 71, 0.4);
+  background: #e88001;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+/* Multi-select styles (kept similar) */
+.multi-select-container { position: relative; }
+
+.multi-select-header {
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 44px;
+}
+
+.multi-select-header:hover { border-color: #FFA500; }
+
+.multi-select-header.open {
+  border-color: #FF8C00;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+}
+
+.selected-values {
+  flex: 1;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected-values.placeholder { color: #999; }
+
+.dropdown-arrow {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.open { transform: rotate(180deg); }
+
+.multi-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #FF8C00;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: dropdownSlide 0.3s ease;
+}
+
+@keyframes dropdownSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.multi-select-option {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.multi-select-option:hover { background: rgba(255, 140, 0, 0.1); }
+
+.multi-select-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #FF8C00;
+}
+
+.multi-select-option label {
+  flex: 1;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+/* ===========================
+   CHART SECTION WRAPPER
+=========================== */
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.chart-section {
+  background: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.8s ease;
+}
+
+.chart-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid #FF8C00;
+}
+
+.chart-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.chart-filters-info {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.chart-content { margin-top: 24px; }
+
+/* ============================= */
+/* SIMPLE HIERARCHICAL TABLE
+   (first column is 4 rows)
+============================= */
+.chart-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 24px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.chart-x-axis-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  min-width: 800px;
+}
+
+/* Sticky left labels (4 rows) */
+.fixed-label-column {
+  position: sticky;
+  left: 0;
+  background: #85878a; /* gray */
+  color: #111;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px;
+  border: 1px solid #2d3748;
+  min-width: 120px;
+  width: 120px;
+  text-align: center;
+  vertical-align: middle;
+  z-index: 10;
+}
+
+/* Keep orange/gray/white palette, simpler than rainbow */
+.hierarchy-level-1 th:not(.fixed-label-column) {
+  background: #FF8C00; /* dark orange */
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 12px 10px;
+  text-align: center;
+  border: 1px solid #B65B16;
+  white-space: nowrap;
+}
+
+.hierarchy-level-2 th:not(.fixed-label-column) {
+  background: #cdcbcb; /* orange */
+  color: #111;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 11px 10px;
+  text-align: center;
+  border: 1px solid #E67E00;
+  white-space: nowrap;
+}
+
+.hierarchy-level-3 th:not(.fixed-label-column) {
+  background: #f3f3f3; /* light gray */
+  color: #111;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid #d8d8d8;
+  white-space: nowrap;
+}
+
+.hierarchy-level-4 th:not(.fixed-label-column) {
+  background: #ffffff; /* white */
+  color: #111;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+/* ============================= */
+/* CHART VISUALIZATION
+   - value-based vertical positioning
+   - same rectangle size
+   - continuous connector line
+   - lighter/smaller grid
+============================= */
+.chart-visualization-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+}
+
+.chart-visualization {
+  position: relative;
+  min-height: 460px;
+  min-width: 800px;
+  padding: 40px 40px; /* less than before */
+  background: white;
+}
+
+/* Grid lines: fewer + lighter so not "too big" */
+.chart-grid-lines {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.grid-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.06); /* very light gray */
+  left: 0;
+}
+
+/* Bars Container */
+.chart-bars-container {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100%;
+  padding: 10px 0;
+  z-index: 2;
+  gap: 40px;
+}
+
+.chart-bar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  min-width: 90px;
+}
+
+/* Stack area for absolute-positioned rectangles */
+.chart-stack {
+  position: relative;
+  width: 140px;
+  height: 320px; /* MUST match Chart.jsx STACK_HEIGHT */
+}
+
+/* Continuous connector (value-based range) */
+.value-connector {
+  position: absolute;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: #696969; /* gray */
+  z-index: 1;
+  border-radius: 2px;
+}
+
+/* Rectangles: fixed size, positioned by top in inline style */
+.chart-rectangle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 36px; /* MUST match Chart.jsx RECT_H */
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Color palette: black / orange / white */
+.chart-rectangle.max {
+  background: #000000;
+  border: 2px solid #000;
+  color: white;
+}
+
+.chart-rectangle.avg {
+  background: #FF8C00;
+  border: 2px solid #E67E00;
+  color: white;
+}
+
+.chart-rectangle.min {
+  background: #FFFFFF;
+  border: 2px solid #000;
+  color: #000;
+}
+
+.chart-rectangle:hover {
+  transform: translateX(-50%) scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+  z-index: 3;
+}
+
+/* ===========================
+   TOOLTIP
+=========================== */
+.tooltip {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  animation: tooltipFade 0.2s ease;
+}
+
+@keyframes tooltipFade {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.tooltip-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 8px;
+}
+
+.tooltip-item {
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+.tooltip-label {
+  font-weight: 600;
+  color: #FF8C00;
+}
+
+/* ===========================
+   EMPTY STATE
+=========================== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-state-text {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .nav-buttons {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-visualization {
+    min-width: 1200px;
   }
 }
+
+
+
+
+
+
