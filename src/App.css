@@ -405,14 +405,11 @@ body {
   position: sticky;
   left: 0;
   background: #85878a !important; /* gray - solid background to cover scrolling content */
-  color: #fff !important;
+  color: #111 !important;
   font-weight: 700;
   font-size: 13px; /* Reduced from 14px */
   padding: 10px 8px; /* Reduced padding */
-  border-right: 2px solid #2d3748; /* Stronger right border */
-  border-top: 1px solid #2d3748;
   border-bottom: 1px solid #2d3748;
-  border-left: 1px solid #2d3748;
   text-align: center;
   vertical-align: middle;
   z-index: 150; /* Even higher z-index */
@@ -434,7 +431,6 @@ body {
   font-weight: 700;
   padding: 10px 6px; /* Reduced padding */
   text-align: center;
-  border: 1px solid #B65B16;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -449,7 +445,6 @@ body {
   font-weight: 700;
   padding: 9px 6px; /* Reduced padding */
   text-align: center;
-  border: 1px solid #E67E00;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
